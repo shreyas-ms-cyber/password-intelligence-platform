@@ -9,7 +9,7 @@ from security_engine import PasswordIntelligenceEngine
 
 app = FastAPI(title="Password Intelligence Platform API")
 
-# Enable CORS for frontend communication
+# ULTIMATE CORS FIX - Permissive for production
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,7 +20,6 @@ app.add_middleware(
 
 # Initialize Engine
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Check local 'datasets' folder (for Render) or parent 'datasets' (for local dev)
 local_path = os.path.join(BASE_DIR, "datasets/common_passwords.txt")
 parent_path = os.path.join(BASE_DIR, "../datasets/common_passwords.txt")
 DATASET_PATH = local_path if os.path.exists(local_path) else parent_path
@@ -42,6 +41,10 @@ class AnalysisResponse(BaseModel):
 class GeneratorSettings(BaseModel):
     length: int = 16
     use_symbols: bool = True
+
+@app.get("/")
+async def root():
+    return {"status": "PSIP Backend Operational", "docs": "/docs"}
 
 @app.post("/analyze", response_model=AnalysisResponse)
 async def analyze_password(req: PasswordRequest):
@@ -71,13 +74,8 @@ async def analyze_password(req: PasswordRequest):
 @app.post("/generate")
 async def generate_password(settings: GeneratorSettings):
     pwd = engine.generate_secure_password(settings.length, settings.use_symbols)
-    # Also analyze the generated one
-    entropy = engine.calculate_entropy(pwd)
-    return {"password": pwd, "entropy": entropy}
-
-@app.get("/health")
-async def health():
-    return {"status": "operational", "engine": "ready"}
+    return {"password": pwd}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

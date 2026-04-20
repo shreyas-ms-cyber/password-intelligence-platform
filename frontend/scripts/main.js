@@ -18,7 +18,7 @@ const lengthVal = document.getElementById('length-val');
 const generateBtn = document.getElementById('generate-btn');
 const generatedPwdDisplay = document.getElementById('generated-pwd');
 
-const API_BASE = "https://psip-backend.onrender.com";
+const API_BASE = "https://password-intelligence-platform.onrender.com";
 
 // Toggle password visibility
 toggleVisibility.addEventListener('click', () => {
