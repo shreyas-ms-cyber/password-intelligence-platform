@@ -247,3 +247,19 @@ button:active { transform: translateY(0); }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Mobile Optimization for Password Input */
+@media (max-width: 600px) {
+    input[type="password"], input[type="text"] {
+        padding: 1rem;
+        padding-right: 4.5rem; /* Safe space for the toggle */
+        font-size: 1rem; /* Slightly smaller for mobile */
+    }
+
+    .toggle-password {
+        font-size: 0.7rem; /* Compact label */
+        right: 1rem;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+}
