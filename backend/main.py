@@ -20,7 +20,11 @@ app.add_middleware(
 
 # Initialize Engine
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATASET_PATH = os.path.join(BASE_DIR, "../datasets/common_passwords.txt")
+# Check local 'datasets' folder (for Render) or parent 'datasets' (for local dev)
+local_path = os.path.join(BASE_DIR, "datasets/common_passwords.txt")
+parent_path = os.path.join(BASE_DIR, "../datasets/common_passwords.txt")
+DATASET_PATH = local_path if os.path.exists(local_path) else parent_path
+
 engine = PasswordIntelligenceEngine(dictionary_path=DATASET_PATH)
 
 class PasswordRequest(BaseModel):
