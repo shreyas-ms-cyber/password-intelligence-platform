@@ -98,6 +98,7 @@ input[type="password"], input[type="text"] {
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.2rem;
+    padding-right: 4.5rem; /* Added padding to prevent text overlap with SHOW button */
     font-family: var(--font-mono);
     font-size: 1.1rem;
     color: var(--primary);
